@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Chessboard Generator. Customize colors, sizes, and styles. Export to SVG and PNG or print directly.">
+    <meta property="og:title" content="Chessboard Generator">
+    <meta property="og:description" content="Create and customize your own chessboard designs. Export to high-quality SVG/PNG.">
+    <meta property="og:type" content="website">
+    <title>Chessboard Generator</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex vh-100">
+
+    <div class="controls p-2 d-flex flex-column gap-2">
+        <h2 class="mb-4">Chessboard Generator</h2>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label class="compact-color-picker">
+                <span>Light Squares</span>
+                <input type="color" id="cLight" value="#F0D9B5">
+            </label>
+        </div>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label class="compact-color-picker">
+                <span>Dark Squares</span>
+                <input type="color" id="cDark" value="#B58863">
+            </label>
+        </div>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label class="compact-color-picker">
+                <span>Border Color</span>
+                <input type="color" id="cBorder" value="#333333">
+            </label>
+        </div>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label class="compact-color-picker">
+                <span>Text Color</span>
+                <input type="color" id="cText" value="#FFFFFF">
+            </label>
+        </div>
+
+        <hr class="my-2 border-top border-secondary">
+
+        <!-- Outer Frame -->
+        <div class="control-group mb-0 d-flex flex-column">
+            <label>Outer Frame</label>
+            <div id="grpOuterFrame" class="d-flex flex-column gap-2 ms-3 ps-3 border-start border-secondary">
+                <label class="compact-color-picker"><span>Color</span> <input type="color" id="cOuterFrame" value="#000000"></label>
+                <label>Width
+                    <div class="d-flex gap-2 align-items-center w-100">
+                        <input type="range" id="rOuterFrameWidth" min="0" max="50" value="10" class="form-range">
+                        <input type="number" id="nOuterFrameWidth" value="10" min="0" class="form-control form-control-sm" style="width:50px">
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Inner Frame -->
+        <div class="control-group mb-0 d-flex flex-column">
+            <label>Inner Frame</label>
+            <div id="grpInnerFrame" class="d-flex flex-column gap-2 ms-3 ps-3 border-start border-secondary">
+                <label class="compact-color-picker"><span>Color</span> <input type="color" id="cInnerFrame" value="#FFFFFF"></label>
+                <label>Width
+                    <div class="d-flex gap-2 align-items-center w-100">
+                        <input type="range" id="rInnerFrameWidth" min="0" max="50" value="5" class="form-range">
+                        <input type="number" id="nInnerFrameWidth" value="5" min="0" class="form-control form-control-sm" style="width:50px">
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <hr class="my-2 border-top border-secondary">
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label>Square Size (px)</label>
+            <div class="d-flex gap-2 align-items-center w-100">
+                <input type="range" id="rSize" min="20" max="200" value="60" class="form-range">
+                <input type="number" id="nSize" value="60" min="20" max="200" class="form-control form-control-sm" style="width:50px">
+            </div>
+        </div>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label>Border Width (px)</label>
+            <div class="d-flex gap-2 align-items-center w-100">
+                <input type="range" id="rBorder" min="0" max="100" value="30" class="form-range">
+                <input type="number" id="nBorder" value="30" min="0" max="100" class="form-control form-control-sm" style="width:50px">
+            </div>
+        </div>
+
+        <div class="control-group mb-0 d-flex flex-column">
+            <label>Font Size (px)</label>
+            <div class="d-flex gap-2 align-items-center w-100">
+                <input type="range" id="rFontSize" min="3" max="100" value="15" class="form-range">
+                <input type="number" id="nFontSize" value="15" min="3" max="100" class="form-control form-control-sm" style="width:50px">
+            </div>
+        </div>
+
+        <div class="control-group mb-2 d-flex flex-column">
+            <label>Presets</label>
+            <select id="presetSelector" class="form-select form-select-sm bg-dark text-white border-secondary">
+                <option value="" selected disabled>Select a style...</option>
+            </select>
+        </div>
+
+        <div class="btn-group d-flex gap-2 mt-auto">
+            <button class="btn btn-warning" onclick="downloadSVG()">SVG</button>
+            <button class="btn btn-primary" onclick="downloadPNG()">PNG</button>
+            <button class="btn btn-success p-2" onclick="window.print()" aria-label="Print"><i class="bi bi-printer"></i></button>
+            <button class="btn btn-secondary p-2" onclick="shareConfig()" aria-label="Share"><i class="bi bi-share"></i></button>
+        </div>
+    </div>
+
+    <div class="preview-area flex-grow-1 d-flex justify-content-center align-items-center p-4 flex-column">
+        <div id="previewContainer"></div>
+        <div id="boardSizeDisplay" class="mt-3 text-white"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</body>
+</html>
